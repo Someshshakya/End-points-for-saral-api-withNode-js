@@ -348,6 +348,47 @@
                         ]
                     }
                 ]
+            },
+            {
+                "id": 1,
+                "courseid": 9,
+                "name": "GIT101 - Learning GIT Level - 9",
+                "description": "Learning Basics of using GIT step - 9",
+                "usersummision": [
+                    {
+                        "id": 1,
+                        "courseid": 9,
+                        "username": "aman19@navgurukul.org",
+                        "usersubmissions": [
+                            "we need more practical examples and questions to solve."
+                        ]
+                    },
+                    {
+                        "id": 1,
+                        "courseid": 9,
+                        "username": "ajith19@navgurukul.org",
+                        "usersubmissions": [
+                            "please update the course ",
+                            "we need more practical examples and questions to solve."
+                        ]
+                    },
+                    {
+                        "id": 1,
+                        "courseid": 9,
+                        "username": "paranthaman19@navgurukul.org",
+                        "usersubmissions": [
+                            "we need more practical examples and questions to solve."
+                        ]
+                    },
+                    {
+                        "id": 1,
+                        "courseid": 9,
+                        "username": "prakash19@navgurukul.org",
+                        "usersubmissions": [
+                            "please update the course "
+                        ]
+                    }
+                ]
             }
         ]
     },

@@ -2,6 +2,7 @@ const express = require("express");// TO use express we need to require this ;
 const fs = require("fs");
 const bodyParser = require('body-parser');
 const { stringify } = require("querystring");
+const { connected } = require("process");
 const app = express();
 app.use(express.json());  //  This allows the express to use json format;
 app.use(bodyParser.json()); //
@@ -23,9 +24,142 @@ app.get("/",(req,res)=>{
 
 });
 
+// 2. Second end point subcourse
+app.get("/maincourseid",(req,res)=>{
+    var list = [];
+    for (i of read){
+        let dub = i.submission;
+        for (sub of dub){            
+            let dictt = {};
+            dictt["id"]=sub.id;
+            dictt["courseid"]=sub.courseid;
+            dictt["name"]=sub.name;
+            dictt["description"]=sub.description;
+            list.push(dictt);
+        };
+    };
+    res.send(list);
+});
+
+//3. Third is to show the full content whatever is there in the file
+app.get("/comeplet",(req,res)=>{
+    res.send(read);
+});
+
+//4. To show the  main coureses by id
+app.get("/maincourse/:id/",(req,res)=>{
+    let id_from_server = req.params.id;
+    console.log(id_from_server);
+    for (j of read){
+        if (id_from_server==j.id){
+            let dictt = {};
+            dictt["id"]=j.id;
+            dictt["name"]=j.name;
+            dictt["description"]=j.description;
+            res.send(dictt);
+        };
+    };
+    
+});
+
+//5. To show the sub course by their id
+
+app.get("/subcourse/:id/:id2/",(req,res)=>{
+    var id = req.params.id;
+    var id2 = req.params.id2;
+    for(i of read){
+        var sub = i.submission;
+        for (j of sub){
+            let id1 = j.id;
+            let idd2 = j.courseid;
+
+            // res.send("Done!");
+            if ((id==id1) & (id2==idd2)){
+                dictt = {};
+                dictt["id"]=j.id;
+                dictt["courseid"]=j.courseid;
+                dictt["name"]=j.name;
+                dictt["description"]=j.description;
+                res.send(dictt);
+            };
+        };
+    };
+});
+
+// 6. It will show all the comments :-
+app.get("/comments",(req,res)=>{
+    var list = [];
+    for (sub of read){
+        var subm = sub.submission;
+        for (user of subm){
+            var userr = user.usersummision;
+            for (com of userr){
+                var dictt = {};
+                dictt["id"]=com.id;
+                dictt["courseid"]=com.courseid;
+                dictt["username"]=com.username;
+                dictt["usersubmissions"]= com.usersubmissions;
+                list.push(dictt);
+            };
+        };
+    };
+    res.send(list);
+});
+
+// // 7. This will show you the comments by the specific main couse id;
+
+app.get("/comments/:id/",(req,res)=>{
+    var idd = req.params.id;
+    var ylist = [];
+    for(i of read){
+        var id1 = i.id;
+        if (idd==id1){
+            var sub = i.submission;
+            for (j of sub){
+                var user =j.usersummision
+    
+                for (d of user){
+    
+                    console.log("hello");
+                    // console.log(d);
+                    ylist.push(d);
+                };
+            };
+            console.log(ylist);
+            res.send(ylist); 
+        };
+  
+    };
+
+});
+
+// 8.   This will show you the comments by the specific subcouse ic:
+app.get("/comments/:id/:idd/",(req,res)=>{
+    var id1 = req.params.id;
+    var id2 = req.params.idd;
+    var listt = [];
+    for (i of read){
+        var sub = i.submission;
+        for (j of sub){
+            var user = j.usersummision;
+            var id11 = j.id;
+            var id22 = j.courseid;
+            if (id1==id11 & id2==id22){
+                console.log(id11);
+                console.log(id22);
+                for (k of user){
+                    console.log(k);
+                    listt.push(k);
+                };    
+            };
+            
+        };
+    };
+    
+    res.send(listt);
+});
+
 // these are the post points 
-
-
 // 9. post 
 app.post("/hello",(req,res)=>{
     let duct = {
@@ -162,142 +296,70 @@ app.put("/update_comments/:id/:courseid/:user",(req,res)=>{
     res.send("Right working in a right way!!");
 })
 
-// 2. Second end point subcourse
-app.get("/maincourseid",(req,res)=>{
-    var list = [];
-    for (i of read){
-        let dub = i.submission;
-        for (sub of dub){
-            let dictt = {};
-            dictt["id"]=sub.id;
-            dictt["courseid"]=sub.courseid;
-            dictt["name"]=sub.name;
-            dictt["description"]=sub.description;
-            list.push(dictt);
-        };
-    };
-    res.send(list);
-});
 
-//3. Third is to show the full content whatever is there in the file
-app.get("/comeplet",(req,res)=>{
-    res.send(read);
-});
+//15.  These are the points of delete to any element from the file by using delete method
 
-//4. To show the  main coureses by id
-app.get("/maincourse/:id/",(req,res)=>{
-    let id_from_server = req.params.id;
-    console.log(id_from_server);
-    for (j of read){
-        if (id_from_server==j.id){
-            let dictt = {};
-            dictt["id"]=j.id;
-            dictt["name"]=j.name;
-            dictt["description"]=j.description;
-            res.send(dictt);
-        };
-    };
-    
-});
-
-//5. To show the sub course by their id
-
-app.get("/subcourse/:id/:id2/",(req,res)=>{
-    var id = req.params.id;
-    var id2 = req.params.id2;
-    for(i of read){
-        var sub = i.submission;
-        for (j of sub){
-            let id1 = j.id;
-            let idd2 = j.courseid;
-
-            // res.send("Done!");
-            if ((id==id1) & (id2==idd2)){
-                dictt = {};
-                dictt["id"]=j.id;
-                dictt["courseid"]=j.courseid;
-                dictt["name"]=j.name;
-                dictt["description"]=j.description;
-                res.send(dictt);
-            };
-        };
-    };
-});
-
-// 6. It will show all the comments :-
-app.get("/comments",(req,res)=>{
-    var list = [];
-    for (sub of read){
-        var subm = sub.submission;
-        for (user of subm){
-            var userr = user.usersummision;
-            for (com of userr){
-                var dictt = {};
-                dictt["id"]=com.id;
-                dictt["courseid"]=com.courseid;
-                dictt["username"]=com.username;
-                dictt["usersubmissions"]= com.usersubmissions;
-                list.push(dictt);
-            };
-        };
-    };
-    res.send(list);
-});
-
-// // 7. This will show you the comments by the specific main couse id;
-
-app.get("/comments/:id/",(req,res)=>{
-    var idd = req.params.id;
-    var ylist = [];
-    for(i of read){
-        var id1 = i.id;
-        if (idd==id1){
-            var sub = i.submission;
-            for (j of sub){
-                var user =j.usersummision
-    
-                for (d of user){
-    
-                    console.log("hello");
-                    // console.log(d);
-                    ylist.push(d);
-                };
-            };
-            console.log(ylist);
-            res.send(ylist); 
-        };
-  
-    };
-
-});
-
-// 8.   This will show you the comments by the specific subcouse ic:
-app.get("/comments/:id/:idd/",(req,res)=>{
+app.delete("/delete_main/:id",(req,res)=>{
     var id1 = req.params.id;
-    var id2 = req.params.idd;
-    var listt = [];
     for (i of read){
-        var sub = i.submission;
-        for (j of sub){
-            var user = j.usersummision;
-            var id11 = j.id;
-            var id22 = j.courseid;
-            if (id1==id11 & id2==id22){
-                console.log(id11);
-                console.log(id22);
-                for (k of user){
-                    console.log(k);
-                    listt.push(k);
-                };    
-            };
-            
-        };
-    };
-    
-    res.send(listt);
+        if (i.id==id1){
+            var index = read.indexOf(i);
+            read.splice(index,1);
+            console.log(i);
+            console.log("All the items which you selected are deleted: ");
+        }
+
+    }
+    fs.writeFileSync("saral.json",JSON.stringify(read,null,4));
+    res.send("Yes the deleting method is working!")
 });
+ 
+
+//16. this will delete the subcourse from the json file
+app.delete("/delete_main/:id/:sub",(req,res)=>{
+    var id3  = req.params.id;
+    var courseid1 = req.params.sub;
+    for (i of read){
+        let sub = i.submission;
+        for (j of sub){
+            if (j.id==id3 & j.courseid==courseid1){
+                let index = sub.indexOf(j);
+                sub.splice(index,1);
+                console.log(j);
+                console.log("The subcourse you wnated to delet has been deleted:!!!!!1");
+            }
+        }
+    }
+    fs.writeFileSync("saral.json",JSON.stringify(read,null,4));
+    res.send("The delete method for deleting the subcourse is woriking:!!!!1111");
+})
 
 
+// This will delete the specific command given by the user;
+app.delete("/delete_main/:id/:sub/:user",(req,res)=>{
+    var id3  = req.params.id;
+    var courseid1 = req.params.sub;
+    var user = req.params.user;
+    for (i of read){
+        let sub = i.submission;
+        for (j of sub){
+            if (j.id==id3 & j.courseid==courseid1){
+                let userarr = j.usersummision;
+                for (k of userarr){
+                    if (k.username == user){
+                        console.log(k.username);
+                        let index = sub.indexOf(k);
+                        sub.splice(index,1);
+                        console.log("The delete method for deleting the comments is woriking:!!!!1111");
+                        
+                    }
+                }
+            }
+        }
+    }
+    fs.writeFileSync("saral.json",JSON.stringify(read,null,4));
+    res.send("The delete method for deleting the comments is woriking:!!!!1111");
+})
 
 app.listen(8788,function(){
     console.log("Thanks it's woriking!");
