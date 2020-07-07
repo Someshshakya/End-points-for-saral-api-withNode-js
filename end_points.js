@@ -1,14 +1,29 @@
-const express = require("express");// TO use express we need to require this ;
-const fs = require("fs");
-const bodyParser = require('body-parser');
-const { stringify } = require("querystring");
-const { connected } = require("process");
-const app = express();
-app.use(express.json());  //  This allows the express to use json format;
-app.use(bodyParser.json()); //
- 
-const read =JSON.parse(fs.readFileSync("saral.json"));
+// Here's the name of website from where you can get any type of help about any topic of node js
+// https://www.tutorialspoint.com/nodejs/nodejs_restful_api.htm
 
+
+
+// Following four HTTP methods are commonly used in REST based architecture.
+
+//1. GET − This is used to provide a read only access to a resource.
+//2. PUT − This is used to create a new resource.
+//3. DELETE − This is used to remove a resource.
+//4. POST − This is used to update a existing resource or create a new resource.
+
+// In this file  I have covered my all the four HTTP  methods:
+
+
+const express = require("express");// TO use express we need to require this ;
+const fs = require("fs"); // To use fileSystem we need to require this also;
+const bodyParser = require('body-parser'); //Here we will get some data from the sever for that we need to first require this also
+const { stringify } = require("querystring"); // this something which came automatically....
+const { connected } = require("process"); // this also.. 
+const app = express(); // Here we use call the express to use it as app;
+app.use(express.json());  //  This allows the express to use json format;
+app.use(bodyParser.json()); // This will allow us to convert the data from the sever into json
+ 
+const read =JSON.parse(fs.readFileSync("saral.json")); // with the name "saral.json" which i'm assining to the (read )varible after reading it with fs
+                        // Here are all the points of get !!!//
 
 //`1. This is first end point which will show the homepage and all the main courses availabe notes:-
 app.get("/",(req,res)=>{
@@ -169,7 +184,7 @@ app.post("/hello",(req,res)=>{
     };
 //stringify //  this method converts a JavaScript value (JSON object) to a JSON string representation
     read.push(duct);
-    fs.writeFileSync('saral.json',JSON.stringify(read ,null,4));
+    fs.writeFileSync('saral.json',JSON.stringify(read ,null,4)); // This is the format to overwrite in any file (for json file only)
     console.log("woriking it has been done");
     res.send("Working done!!!!!!!!!!!!!!!11")
 });
@@ -205,7 +220,8 @@ app.post("/main/:id",(req,res)=>{
     fs.writeFileSync('saral.json',JSON.stringify(read ,null,4));
     res.send("Wow! working:-  ");
 });
-//post point
+											//Here are the points of post methods
+
 // 11. This will allow you to add comments in the subcourse
 app.post("/comm/:id/:cm",(req,res)=>{
     let idname = req.params.id;
@@ -233,8 +249,8 @@ app.post("/comm/:id/:cm",(req,res)=>{
     };  
     res.send("yes over an out!");
 });
-
-// These are the points for put methods:--
+ 
+									// These are the points for put methods:--
 //12. put method for updating main course:
 app.put("/mainnn/:id",(req,res)=>{
     var id1 = req.params.id;
@@ -295,7 +311,8 @@ app.put("/update_comments/:id/:courseid/:user",(req,res)=>{
     fs.writeFileSync("saral.json",JSON.stringify(read,null,4));
     res.send("Right working in a right way!!");
 })
-
+							
+										// Here are the point of Delete
 
 //15.  These are the points of delete to any element from the file by using delete method
 
